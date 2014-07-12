@@ -1,5 +1,5 @@
 //setup the drawing environment
-var canvas = document.getElementById('canvas');
+var canvas = document.getElementById('fractalcanvas');
 var context = canvas.getContext('2d');
 var xr = context.canvas.width;
 var yr = context.canvas.height;
@@ -28,7 +28,7 @@ console.log("colour mr1:" + mr1);
 console.log("colour mg1:" + mg1);
 console.log("colour mb1:" + mb1);
 
-var maxIt = 20; //iteration count
+var maxIt = 100; //iteration count
 var x = 0.0; var y = 0.0;
 var zx = 0.0; var zx0 = 0.0; var zy = 0.0;
 var zx2 = 0.0; var zy2 = 0.0;
@@ -91,12 +91,36 @@ function iteratePoint(a,b,itr){
 		//console.log("zxc["+i+"]: " + zxc);
 		//console.log("zyc["+i+"]: " + zyc);
 		//console.log("absZ["+i+"]: " + absZ);
-		if (absZ > 4){
+		//testHighestIterations(i);
+		if (absZ >= 4){
 			//console.log("To infinity, and beyond.");
-			mr = mr1,mg = mg1,mb = mb1;
+			//mr = mr1,mg = mg1,mb = mb1;//colour white
+			mr = mg = mb = calculateColourOfIteration(i);
 			break;
 		}
 	}
+}
+
+function calculateColourOfIteration(itr){
+	//using greyscale so r,g,b are all the same
+	var rgbMax = 0;
+	var rgbMin = 255;
+	var rgbRange = rgbMax - rgbMin;
+	
+	var colour = (itr / maxIt) * rgbRange + rgbMin;
+	return colour;
+}
+
+var iteration = 0;
+var countItr = 0;
+function testHighestIterations(itr){
+	if (itr > iteration){
+		//console.log("Iteration["+ countItr +"]:" + iteration);
+		console.log("colour["+ i +"]:" + calculateColourOfIteration(i));
+		iteration = itr;
+	}
+	
+	countItr ++;
 }
 
 function testAbsoluteofComplex(a,b){
