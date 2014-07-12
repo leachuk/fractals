@@ -84,6 +84,8 @@ function iteratePoint(a,b,itr){
 		//console.log("zyc["+i+"]: " + zyc);
 		//console.log("absZ["+i+"]: " + absZ);
 		//testHighestIterations(i);
+	
+		//greater than 4 indicates escape to infinity. See the significance http://en.wikipedia.org/wiki/Cartesian_coordinate_system
 		if (absZ >= 4){
 			//console.log("To infinity, and beyond.");
 			//mr = mr1,mg = mg1,mb = mb1;//colour white
