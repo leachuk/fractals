@@ -67,17 +67,9 @@ function returnCartesianCoordXY(x,y){
 function iteratePoint(a,b,itr){
 	var x = a; var y = b;
 	var zx=0; var yx=0;
-	var cx=a; var cy=b; // is this always constant, or iterates on last value?
+	var cx=a; var cy=b; // Constant
 	mr = mr0,mg = mg0,mb = mb0;
-	for (i=0; i < itr; i++){
-		//on first iteration Z will equal 0, so only calculate C
-		if (i == 0){
-		 var cx2 = cx*cx;
-		 var cy2 = cy*cy;
-		 var absC = cx2+cy2;
-		 //console.log("absC: " + absC);
-		}
-	
+	for (i=0; i < itr; i++){	
 		zx = (x*x) - (y*y);
 		zy = 2*x*y;
 		//console.log("zx:" + zx);
