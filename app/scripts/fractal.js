@@ -28,7 +28,7 @@ console.log("colour mr1:" + mr1);
 console.log("colour mg1:" + mg1);
 console.log("colour mb1:" + mb1);
 
-var maxIt = 100; //iteration count
+var maxIt = 18; //iteration count
 var x = 0.0; var y = 0.0;
 var zx = 0.0; var zx0 = 0.0; var zy = 0.0;
 var zx2 = 0.0; var zy2 = 0.0;
@@ -68,10 +68,11 @@ function iteratePoint(a,b,itr){
 	var x = a; var y = b;
 	var zx=0; var yx=0;
 	var cx=a; var cy=b; // Constant
-	mr = mr0,mg = mg0,mb = mb0;
+	mr = mr0; mg = mg0; mb = mb0;
 	for (i=0; i < itr; i++){	
 		zx = (x*x) - (y*y);
 		zy = 2*x*y;
+		//for smooth colour calc
 		//console.log("zx:" + zx);
 		//console.log("zy:" + zy);
 		//add C
@@ -80,37 +81,59 @@ function iteratePoint(a,b,itr){
 		var absZ = (zxc*zxc)+(zyc*zyc); // calculate complex to absolute
 		x = zxc;
 		y = zyc;
+
+		//zi = o*o;
+		//zr = p*p; 
+		//mr = mg = mb = calculateColourOfIteration(zr,zi,i);
+		//o = zxc;
+		//p = zyc;
 		//console.log("zxc["+i+"]: " + zxc);
 		//console.log("zyc["+i+"]: " + zyc);
 		//console.log("absZ["+i+"]: " + absZ);
-		//testHighestIterations(i);
-	
 		//greater than 4 indicates escape to infinity. See the significance http://en.wikipedia.org/wiki/Cartesian_coordinate_system
 		if (absZ >= 4){
 			//console.log("To infinity, and beyond.");
 			//mr = mr1,mg = mg1,mb = mb1;//colour white
-			mr = mg = mb = calculateColourOfIteration(i);
+			testHighestIterations(zx,zy,i);		
+			mr = mg = mb = calculateColourOfIteration(absZ,i);
 			break;
 		}
+
 	}
 }
-
-function calculateColourOfIteration(itr){
+var logBase = 1.0 / Math.log(2.0);
+var logHalfBase = Math.log(0.5)*logBase;
+function calculateColourOfIteration(absZ,itr){
 	//using greyscale so r,g,b are all the same
 	var rgbMax = 0;
 	var rgbMin = 255;
 	var rgbRange = rgbMax - rgbMin;
 	
-	var colour = (itr / maxIt) * rgbRange + rgbMin;
+	var v = itr - Math.log(Math.log(Math.sqrt(absZ)))/Math.log(2.0);
+	//var colour = (itr / maxIt) * rgbRange + rgbMin;
+	var colour = (v / maxIt) * rgbRange + rgbMin;
+	colour = (colour > 0) ? colour : 0;
 	return colour;
 }
 
 var iteration = 0;
 var countItr = 0;
-function testHighestIterations(itr){
+
+function testHighestIterations(zr,zi,itr){
 	if (itr > iteration){
 		//console.log("Iteration["+ countItr +"]:" + iteration);
-		console.log("colour["+ i +"]:" + calculateColourOfIteration(i));
+		//m = iter_count - log (log escape_radius) /log 2
+		var absZ = Math.sqrt(zr*zr+zi*zi);
+		var v = 1 + itr - Math.log(absZ)/Math.log(2.0);
+		var z = 5 + itr - logHalfBase - Math.log(Math.log(zr+zi))*logBase;
+		console.log("colour["+ itr +"]:" 
+			+ calculateColourOfIteration(absZ,itr)
+			+ "\t	smoothed:"
+			+ v
+			+ "\t	smoothed-short:"
+			+ z
+			+ "\t zr:"+zr+", zi:"+zi+""
+		);
 		iteration = itr;
 	}
 	
@@ -135,7 +158,6 @@ for (var ky = 0; ky < yr; ky++)	//iterate height Y
     {
 		var ab = returnCartesianCoordXY(kx,ky);
        	iteratePoint(ab[0],ab[1],maxIt)
-
         var p = (xr * ky + kx) * 4;
         pix[p + 0] = mr; //r
         pix[p + 1] = mg; //g
