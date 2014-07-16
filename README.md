@@ -1,6 +1,6 @@
 fractals
 ========
-A simple Mandlebrot set with javascript in HTML5 Canvas.
+A simple Mandlebrot set with javascript in a HTML5 Canvas.
 
 Smoothshading has been implemented.
 
