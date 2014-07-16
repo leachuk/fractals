@@ -105,6 +105,8 @@ function calculateColourOfIteration(absZ,itr){
 var iteration = 0;
 var countItr = 0;
 
+//Sandpit for testing values without giving the browser rectal failure.
+//Ignore the contents.
 function testHighestIterations(zr,zi,itr){
 	if (itr > iteration){
 		//console.log("Iteration["+ countItr +"]:" + iteration);
