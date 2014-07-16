@@ -6,5 +6,5 @@ Smoothshading has been implemented.
 
 Ignore all the fluff files, I was lazy and used grunt to get things started quickly. 
 The files to peek at are:
-  app/index.html
-  app/scripts/fractal.js
+*app/index.html
+*app/scripts/fractal.js
