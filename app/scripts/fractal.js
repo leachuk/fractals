@@ -143,8 +143,8 @@ for (var ky = 0; ky < yr; ky++)	//iterate height Y
     for(var kx = 0; kx < xr; kx++)	//iterate width X
     {
 		var ab = returnCartesianCoordXY(kx,ky);
-       	iteratePoint(ab[0],ab[1],maxIt)
-        var p = (xr * ky + kx) * 4;
+		iteratePoint(ab[0],ab[1],maxIt)
+		var p = (xr * ky + kx) * 4;
         pix[p + 0] = mr; //r
         pix[p + 1] = mg; //g
         pix[p + 2] = mb; //b
