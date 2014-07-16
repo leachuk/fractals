@@ -29,9 +29,6 @@ console.log("colour mg1:" + mg1);
 console.log("colour mb1:" + mb1);
 
 var maxIt = 25; //iteration count
-var x = 0.0; var y = 0.0;
-var zx = 0.0; var zx0 = 0.0; var zy = 0.0;
-var zx2 = 0.0; var zy2 = 0.0;
 
 //Complex 
 //Zn+1 = Zn^2 + C
