@@ -42,10 +42,6 @@ var maxIt = 25; //iteration count
 // a point (a,b) escapes to infinity (> 4). 
 //Abs = a^2 + b^2
 
-//test cartesian point of formula
-var a = -1.5;
-var b = 1;
-
 function returnCartesianCoordXY(x,y){
 //map the pixel to the cartesian plane
 	pixelX = x;
@@ -69,21 +65,14 @@ function iteratePoint(a,b,itr){
 	for (i=0; i < itr; i++){	
 		zx = (x*x) - (y*y);
 		zy = 2*x*y;
-		//for smooth colour calc
-		//console.log("zx:" + zx);
-		//console.log("zy:" + zy);
+		
 		//add C
 		var zxc = zx + cx;
 		var zyc = zy + cy;
 		var absZ = (zxc*zxc)+(zyc*zyc); // calculate complex to absolute
 		x = zxc;
 		y = zyc;
-
-		//zi = o*o;
-		//zr = p*p; 
-		//mr = mg = mb = calculateColourOfIteration(zr,zi,i);
-		//o = zxc;
-		//p = zyc;
+		//Do NOT enable this logging for anything but a v v small canvas!
 		//console.log("zxc["+i+"]: " + zxc);
 		//console.log("zyc["+i+"]: " + zyc);
 		//console.log("absZ["+i+"]: " + absZ);
@@ -105,7 +94,7 @@ function calculateColourOfIteration(absZ,itr){
 	var rgbMax = 0;
 	var rgbMin = 255;
 	var rgbRange = rgbMax - rgbMin;
-	
+	//smooth colouring algorithm which prevents the typical banding
 	var v = itr - Math.log(Math.log(Math.sqrt(absZ)))/Math.log(2.0);
 	//var colour = (itr / maxIt) * rgbRange + rgbMin;
 	var colour = (v / maxIt) * rgbRange + rgbMin;
@@ -137,18 +126,16 @@ function testHighestIterations(zr,zi,itr){
 	countItr ++;
 }
 
-function testAbsoluteofComplex(a,b){
-	var c = a*a + b*b;
-	return c;
-}
-console.log("return testAbsoluteofComplex:" + testAbsoluteofComplex(a,b));
-
+//conveniently test cartesian point of formula without need to alter canvas size
+var a = -1.5;
+var b = 1;
 iteratePoint(a,b,3);
 
 console.log("returnCartesianCoordXY:" + returnCartesianCoordXY(5,5));
 
-//timestamp 
+//timestamp start
 var then = new Date();
+//loop over canvas
 for (var ky = 0; ky < yr; ky++)	//iterate height Y 
 {	
     for(var kx = 0; kx < xr; kx++)	//iterate width X
@@ -163,6 +150,7 @@ for (var ky = 0; ky < yr; ky++)	//iterate height Y
         //console.log(p);   
     }
 }
+//timestamp end
 var now = new Date();
 console.log("elapsed time(ms):" + (now-then));
 
